@@ -18,7 +18,7 @@ public class Config implements WebMvcConfigurer {
   public ViewResolver viewResolver() {
     InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
     viewResolver.setViewClass(JstlView.class);
-    viewResolver.setPrefix("/WEB-INF/static/");
+    viewResolver.setPrefix("/WEB-INF/jsp/");
     return viewResolver;
   }
 
