@@ -18,11 +18,11 @@ The application can be run in 2 ways
    2. run the command _mvn clean package_. Needs maven to be installed.
    3. A war file will be generated in the target folder.
    4. Open a terminal window in the target folder, and run the command _java -jar zcc-0.0.1-SNAPSHOT.war --user xxx --pass xxx --sub_domain xxx_.
-   5. Access localhost on the browser to access the application.
+   5. Access [http://localhost/](http://localhost/) on the browser to access the application.
 2. Directly running without packaging.
    1. Open a terminal at the base directory (The directory containing pom.xml).
    2. run the command _mvn spring-boot:run -Dspring-boot.run.arguments="--user=xxx --pass=xxx --sub_domain=xxx"_.
-   3. Access localhost on the browser to access the application.
+   3. Access [http://localhost/](http://localhost/) on the browser to access the application.
 
 #Limitations
 1. The application is not secure, and does not authenticate before giving access to tickets.
