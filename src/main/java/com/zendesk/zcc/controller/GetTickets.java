@@ -4,6 +4,7 @@ import com.zendesk.zcc.model.Request;
 import com.zendesk.zcc.model.ZccRequestMethods;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,26 +23,30 @@ public class GetTickets {
   @ResponseBody
   public String getTicketsInfo(Map<String,Object> model, HttpServletRequest request) {
     Map<String, String> params = new HashMap<>();
-    params.put("LIMIT", request.getParameter("Limit") != null ? request.getParameter("Limit") : "25");
-    params.put("OFF_SET", request.getParameter("Offset") != null ? request.getParameter("Offset") : "1");
+    params.put("LIMIT", request.getParameter("LIMIT") != null ? request.getParameter("LIMIT") : "25");
+    params.put("OFF_SET", request.getParameter("OFF_SET") != null ? request.getParameter("OFF_SET") : "1");
     try {
-      String requestUrl = Request.GET_TICKETS.getBuilder(params).build();
+      String requestUrl = request.getParameter("URL") != null ? request.getParameter("URL") : Request.GET_TICKETS.getBuilder(params).build();
       JSONObject jsonObject = new JSONObject(ZccRequestMethods.GET.getMethodHandler().sendRequest(requestUrl));
-      JSONArray tickets = jsonObject.getJSONArray("tickets");
-      JSONArray updatedTickets = new JSONArray();
-      for(int i = 0; i < tickets.length(); i++) {
-        JSONObject ticket = tickets.getJSONObject(i);
-        JSONObject updatedTicket = new JSONObject();
-        updatedTicket.put("url", ticket.get("url"));
-        updatedTicket.put("subject", ticket.get("subject"));
-        updatedTicket.put("id", ticket.get("id"));
-        updatedTickets.put(updatedTicket);
+      if(jsonObject.has("tickets")) {
+        JSONArray tickets = jsonObject.getJSONArray("tickets");
+        JSONArray updatedTickets = new JSONArray();
+        for (int i = 0; i < tickets.length(); i++) {
+          JSONObject ticket = tickets.getJSONObject(i);
+          JSONObject updatedTicket = new JSONObject();
+          updatedTicket.put("url", ticket.get("url"));
+          updatedTicket.put("subject", ticket.get("subject"));
+          updatedTicket.put("id", ticket.get("id"));
+          updatedTickets.put(updatedTicket);
+        }
+        jsonObject.put("tickets", updatedTickets);
       }
-      jsonObject.put("tickets", updatedTickets);
       return jsonObject.toString();
-    } catch (IllegalArgumentException | IllegalStateException | IOException e) {
+    } catch (IllegalArgumentException | IllegalStateException | IOException | JSONException e) {
       e.printStackTrace();
-      return e.getMessage();
+      JSONObject jsonObject = new JSONObject();
+      jsonObject.put("error", e.getMessage());
+      return jsonObject.toString();
     }
   }
 }

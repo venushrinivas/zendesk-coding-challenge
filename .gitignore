@@ -32,3 +32,10 @@ build/
 ### VS Code ###
 .vscode/
 /.mvn/
+/src/main/resources/static/assets/client-cf62312085747f931ee4e7a4f263af86.js
+/src/main/resources/static/assets/client-d41d8cd98f00b204e9800998ecf8427e.css
+/src/main/resources/static/assets/vendor-b4085884c35db37fc87ac0fd549701ff.js
+/src/main/resources/static/assets/vendor-d41d8cd98f00b204e9800998ecf8427e.css
+/src/main/resources/static/index.html
+/src/main/resources/static/robots.txt
+/src/main/webapp/WEB-INF/jsp/index.jsp
